@@ -1,63 +1,73 @@
-import Image from "next/image";
+import { prisma } from "@/lib/prisma";
+import { Sidebar } from "@/components/layout/sidebar";
+import { SwissStatCard } from "@/components/ui/stat-card";
+import { SwissButton } from "@/components/ui/button";
+import { ShoppingBag, Users, Clock, TrendingUp, Plus } from "lucide-react";
+import Link from "next/link";
+import { RecentOrdersTable } from "@/components/dashboard/recent-orders-table";
 
-export default function Home() {
+export default async function DashboardPage() {
+  const stats = [
+    { label: "Total Revenue", value: "Rp 1.250.000", icon: TrendingUp, trend: "+12%" },
+    { label: "Active Orders", value: "18", icon: ShoppingBag, trend: "4 pending" },
+    { label: "New Customers", value: "12", icon: Users, trend: "+2 today" },
+    { label: "Avg. Process Time", value: "24h", icon: Clock, trend: "-2h from last week" },
+  ];
+
+  const recentOrders = await prisma.order.findMany({
+    take: 5,
+    include: { customer: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  // Convert to serializable format for client component
+  const serializableOrders = recentOrders.map(o => ({
+    ...o,
+    createdAt: o.createdAt.toISOString()
+  }));
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar />
+      
+      <main className="flex-1 overflow-y-auto bg-[rgb(var(--swiss-paper))]">
+        <div className="max-w-7xl mx-auto px-8 py-8">
+          <header className="flex justify-between items-end mb-12">
+            <div>
+              <p className="swiss-eyebrow mb-2">Overview / 01</p>
+              <h1 className="swiss-display text-4xl">Dashboard</h1>
+            </div>
+            <Link href="/orders/new">
+              <SwissButton size="lg" className="h-14 px-8">
+                <Plus className="mr-2 h-5 w-5" />
+                New Order
+              </SwissButton>
+            </Link>
+          </header>
+
+          <section className="swiss-grid mb-12">
+            {stats.map((stat, i) => (
+              <div key={i} className="col-span-12 md:col-span-6 lg:col-span-3">
+                <SwissStatCard
+                  label={stat.label}
+                  value={stat.value}
+                  delta={stat.trend}
+                  trend={stat.trend.includes("+") ? "up" : stat.trend.includes("-") ? "down" : "flat"}
+                />
+              </div>
+            ))}
+          </section>
+
+          <section className="border-t border-[rgb(var(--swiss-rule))] pt-12">
+            <div className="flex justify-between items-baseline mb-6">
+              <h2 className="swiss-headline text-2xl uppercase tracking-tight">Recent Activity</h2>
+              <Link href="/orders" className="swiss-eyebrow hover:text-[rgb(var(--swiss-ink))] transition-colors border-b border-[rgb(var(--swiss-rule))]">
+                View all orders
+              </Link>
+            </div>
+
+            <RecentOrdersTable orders={serializableOrders} />
+          </section>
         </div>
       </main>
     </div>

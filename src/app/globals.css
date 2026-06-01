@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-swiss-paper: rgb(var(--swiss-paper));
+  --color-swiss-paper-2: rgb(var(--swiss-paper-2));
+  --color-swiss-ink: rgb(var(--swiss-ink));
+  --color-swiss-ink-2: rgb(var(--swiss-ink-2));
+  --color-swiss-muted: rgb(var(--swiss-muted));
+  --color-swiss-rule: rgb(var(--swiss-rule));
+  --color-swiss-rule-strong: rgb(var(--swiss-rule-strong));
+  --color-swiss-accent: rgb(var(--swiss-accent));
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --swiss-paper: 255 255 255;
+    --swiss-paper-2: 250 250 250;
+    --swiss-ink: 15 15 15;
+    --swiss-ink-2: 38 38 38;
+    --swiss-muted: 115 115 115;
+    --swiss-rule: 229 229 229;
+    --swiss-rule-strong: 163 163 163;
+    --swiss-accent: 220 38 38;
+  }
+  .dark {
+    --swiss-paper: 9 9 9;
+    --swiss-paper-2: 18 18 18;
+    --swiss-ink: 245 245 245;
+    --swiss-ink-2: 212 212 212;
+    --swiss-muted: 140 140 140;
+    --swiss-rule: 38 38 38;
+    --swiss-rule-strong: 82 82 82;
+    --swiss-accent: 248 113 113;
   }
 }
 
+@layer utilities {
+  .swiss-paper { background-color: rgb(var(--swiss-paper)); color: rgb(var(--swiss-ink)); }
+  .swiss-rule { border-top: 1px solid rgb(var(--swiss-rule)); }
+  .swiss-rule-strong { border-top: 1px solid rgb(var(--swiss-rule-strong)); }
+  .swiss-rule-vertical { border-left: 1px solid rgb(var(--swiss-rule)); }
+  .swiss-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+  .swiss-display { font-weight: 500; letter-spacing: -0.035em; line-height: 0.96; }
+  .swiss-headline { font-weight: 500; letter-spacing: -0.025em; line-height: 1.05; }
+  .swiss-eyebrow { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgb(var(--swiss-muted)); font-weight: 500; }
+  .swiss-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(var(--swiss-paper));
+  color: rgb(var(--swiss-ink));
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
