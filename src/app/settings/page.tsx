@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SwissButton } from "@/components/ui/button";
-import { SwissInput } from "@/components/ui/input";
 import { SwissBadge } from "@/components/ui/badge";
 import { Moon, Sun } from "lucide-react";
 

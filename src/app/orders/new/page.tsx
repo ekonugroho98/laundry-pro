@@ -55,7 +55,7 @@ export default async function NewOrderPage() {
               </div>
             </div>
 
-            <SwissButton type="submit" variant="accent" className="w-full md:w-auto px-12">
+          <SwissButton variant="primary" className="w-full md:w-auto px-12">
               <Plus className="mr-2 h-5 w-5" />
               Submit Order
             </SwissButton>

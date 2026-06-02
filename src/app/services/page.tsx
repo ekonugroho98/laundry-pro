@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Sidebar } from "@/components/layout/sidebar";
 import { SwissBadge } from "@/components/ui/badge";
 import { SwissButton } from "@/components/ui/button";
+import Link from "next/link";
 import { Plus } from "lucide-react";
 
 export default async function ServicesPage() {
@@ -21,9 +22,11 @@ export default async function ServicesPage() {
               <p className="swiss-eyebrow mb-2">Configuration / 04</p>
               <h1 className="swiss-display text-4xl">Services</h1>
             </div>
-            <SwissButton size="lg" className="h-14 px-8">
-              <Plus className="mr-2 h-5 w-5" /> Add Service
-            </SwissButton>
+            <Link href="/services/new">
+              <SwissButton size="lg" className="h-14 px-8">
+                <Plus className="mr-2 h-5 w-5" /> Add Service
+              </SwissButton>
+            </Link>
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

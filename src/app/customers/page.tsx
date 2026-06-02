@@ -3,7 +3,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { SwissButton } from "@/components/ui/button";
 import { Plus, Search } from "lucide-react";
 import { SwissInput } from "@/components/ui/input";
-import { SwissTable, TableColumn } from "@/components/ui/table";
+
 
 export default async function CustomersPage() {
   const customers = await prisma.customer.findMany({

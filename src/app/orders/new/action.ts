@@ -8,7 +8,7 @@ export async function createOrder(formData: FormData) {
   const customerPhone = formData.get("customerPhone") as string;
   const serviceId = formData.get("serviceId") as string;
   const quantity = parseFloat(formData.get("quantity") as string);
-  const notes = formData.get("notes") as string | null;
+const _notes = formData.get("notes") as string | null;
 
   // 1. Find or create customer
   let customer = await prisma.customer.findFirst({ where: { phone: customerPhone } });

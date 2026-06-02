@@ -2,8 +2,6 @@
 
 import { SwissTable, TableColumn } from "@/components/ui/table";
 import { SwissBadge } from "@/components/ui/badge";
-import { SwissButton } from "@/components/ui/button";
-import { Eye, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 type Order = {
