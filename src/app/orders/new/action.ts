@@ -2,13 +2,14 @@
 
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function createOrder(formData: FormData) {
   const customerName = formData.get("customerName") as string;
   const customerPhone = formData.get("customerPhone") as string;
   const serviceId = formData.get("serviceId") as string;
   const quantity = parseFloat(formData.get("quantity") as string);
-const _notes = formData.get("notes") as string | null;
+  const _notes = formData.get("notes") as string | null;
 
   // 1. Find or create customer
   let customer = await prisma.customer.findFirst({ where: { phone: customerPhone } });
@@ -45,6 +46,7 @@ const _notes = formData.get("notes") as string | null;
     },
   });
 
-  // 4. Redirect to orders list
+  // 4. Revalidate and Redirect
+  revalidatePath("/orders");
   redirect("/orders");
 }

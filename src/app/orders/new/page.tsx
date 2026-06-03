@@ -3,6 +3,7 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { SwissButton } from "@/components/ui/button";
 import { SwissInput } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import { createOrder } from "./action";
 
 export default async function NewOrderPage() {
   const services = await prisma.service.findMany({ where: { isActive: true } });
@@ -17,7 +18,7 @@ export default async function NewOrderPage() {
             <h1 className="swiss-display text-4xl">Create New Order</h1>
           </header>
 
-          <form action="/orders/new/action" method="POST" className="space-y-6">
+          <form action={createOrder} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="swiss-eyebrow">Customer Name</label>
