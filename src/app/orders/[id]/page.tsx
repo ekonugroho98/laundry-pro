@@ -21,7 +21,7 @@ export default function OrderDetailPage({
   // Mock order data
   const order = {
     id: orderId,
-    customer: "Customer " + orderId,
+    customer: "Customer " + (orderId || "unknown"),
     items: [
       { name: "Premium Wash & Fold", price: 150000, quantity: 3 },
       { name: "Dry Cleaning", price: 50000, quantity: 2 },
