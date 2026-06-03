@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { Sidebar } from "@/components/layout/sidebar";
-import { SwissButton } from "@/components/ui/button";
 import { SwissInput } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { createOrder } from "./action";
@@ -48,7 +47,14 @@ export default async function NewOrderPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="swiss-eyebrow">Quantity (kg/pcs)</label>
-                <SwissInput name="quantity" type="number" step="0.1" min="0.1" placeholder="3.5" required />
+                <SwissInput
+                  name="quantity"
+                  type="number"
+                  step="0.1"
+                  min="0.1"
+                  placeholder="3.5"
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <label className="swiss-eyebrow">Notes (optional)</label>
@@ -56,10 +62,14 @@ export default async function NewOrderPage() {
               </div>
             </div>
 
-          <SwissButton variant="primary" className="w-full md:w-auto px-12">
+            {/* Native button for form submission */}
+            <button
+              type="submit"
+              className="w-full md:w-auto px-12 bg-[rgb(var(--swiss-ink))] text-[rgb(var(--swiss-paper))] font-medium py-3 rounded-none hover:bg-[rgb(var(--swiss-ink-2))] transition-colors flex items-center justify-center uppercase tracking-wider text-sm"
+            >
               <Plus className="mr-2 h-5 w-5" />
               Submit Order
-            </SwissButton>
+            </button>
           </form>
         </div>
       </main>
