@@ -1,5 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updateOrderAction, deleteOrderAction } from "../../../orders/[id]/action";
+import { getOrderAction, updateOrderAction, deleteOrderAction } from "../../../orders/[id]/action";
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const result = await getOrderAction(id);
+    if (!result.success) {
+      return NextResponse.json({ error: result.message }, { status: 404 });
+    }
+    return NextResponse.json(result.data);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
 
 export async function PUT(
   request: NextRequest,

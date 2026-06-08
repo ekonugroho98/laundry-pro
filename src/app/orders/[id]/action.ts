@@ -43,6 +43,20 @@ const mockDatabase: Record<string, OrderData> = {
   }
 };
 
+export async function getOrderAction(orderId: string) {
+  // In real implementation, use Prisma:
+  // const order = await prisma.order.findUnique({
+  //   where: { id: orderId },
+  //   include: { items: true, customer: true }
+  // });
+  const order = mockDatabase[orderId];
+  if (!order) {
+    return { success: false, message: 'Order not found' };
+  }
+  // Return shape expected by client
+  return { success: true, data: order };
+}
+
 export async function updateOrderAction(data: OrderUpdateData, orderId: string) {
   try {
     // In real implementation, use Prisma:
