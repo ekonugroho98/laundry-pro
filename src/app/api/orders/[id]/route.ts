@@ -1,13 +1,14 @@
-import { NextResponse } from "next/server";
-import { updateOrderAction, deleteOrderAction } from "../../orders/[id]/action";
+import { NextRequest, NextResponse } from "next/server";
+import { updateOrderAction, deleteOrderAction } from "../../../orders/[id]/action";
 
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json();
-    const result = await updateOrderAction(body, params.id);
+    const { id } = await params;
+    const result = await updateOrderAction(body, id);
     if (!result.success) {
       return NextResponse.json({ error: result.message }, { status: 400 });
     }
@@ -18,11 +19,12 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const result = await deleteOrderAction(params.id);
+    const { id } = await params;
+    const result = await deleteOrderAction(id);
     if (!result.success) {
       return NextResponse.json({ error: result.message }, { status: 400 });
     }
